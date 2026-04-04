@@ -38,7 +38,6 @@ cat > "$SETTINGS_FILE" << EOF
     "commit-commands@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true,
     "explanatory-output-style@claude-plugins-official": true,
-    "greptile@claude-plugins-official": true,
     "learning-output-style@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
     "chrome-devtools-mcp@claude-plugins-official": true,
