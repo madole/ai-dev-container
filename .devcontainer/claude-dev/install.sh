@@ -1,5 +1,11 @@
-#\!/bin/bash
-set -euo pipefail
+#!/bin/sh
+set -e
+
+# Re-exec under bash for pipefail and BASH_SOURCE support
+if [ -z "${BASH_VERSION:-}" ]; then
+  exec bash "$0" "$@"
+fi
+set -uo pipefail
 
 FEATURE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MARKER_DIR="/usr/local/share/claude-dev"
