@@ -1,46 +1,67 @@
 #!/bin/bash
 set -e
 
-# Install Claude Code plugins
-# This runs as postCreateCommand (once, after container creation)
+# Pre-seed Claude Code plugin settings
+# Plugins are declared in settings.json and installed automatically on first launch
 
-CLAUDE_BIN="/usr/local/bin/claude"
+CLAUDE_CONFIG_DIR="${_REMOTE_USER_HOME:-$HOME}/.claude"
+SETTINGS_FILE="$CLAUDE_CONFIG_DIR/settings.json"
 
-if [ ! -x "$CLAUDE_BIN" ]; then
-  echo "WARNING: claude not found at $CLAUDE_BIN, skipping plugin installation"
-  exit 0
-fi
+mkdir -p "$CLAUDE_CONFIG_DIR"
 
-# Official plugins (claude-plugins-official)
-OFFICIAL_PLUGINS=(
-  "frontend-design"
-  "superpowers"
-  "context7"
-  "claude-md-management"
-  "typescript-lsp"
-  "security-guidance"
-  "commit-commands"
-  "pr-review-toolkit"
-  "explanatory-output-style"
-  "greptile"
-  "learning-output-style"
-  "gopls-lsp"
-  "chrome-devtools-mcp"
-  "circleback"
-  "remember"
-)
-
-echo "Installing official Claude plugins..."
-for plugin in "${OFFICIAL_PLUGINS[@]}"; do
-  echo "  Installing $plugin..."
-  "$CLAUDE_BIN" plugin install "$plugin@claude-plugins-official" || echo "  WARNING: Failed to install $plugin, continuing..."
-done
-
-# Agent-skills (community plugin, conditional)
+AGENT_SKILLS_ENTRY=""
+AGENT_SKILLS_MARKETPLACE=""
 if [ -f /usr/local/share/claude-dev/agent-skills-enabled ]; then
-  echo "Installing agent-skills plugin..."
-  "$CLAUDE_BIN" plugin marketplace add addyosmani/agent-skills || echo "  WARNING: Failed to add agent-skills marketplace"
-  "$CLAUDE_BIN" plugin install agent-skills@addy-agent-skills || echo "  WARNING: Failed to install agent-skills"
+  AGENT_SKILLS_ENTRY=',
+    "agent-skills@addy-agent-skills": true'
+  AGENT_SKILLS_MARKETPLACE=',
+    "addy-agent-skills": {
+      "source": {
+        "source": "github",
+        "repo": "addyosmani/agent-skills"
+      }
+    }'
 fi
 
-echo "Plugin installation complete."
+cat > "$SETTINGS_FILE" << EOF
+{
+  "extraKnownMarketplaces": {
+    "placeholder": null${AGENT_SKILLS_MARKETPLACE}
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "pr-review-toolkit@claude-plugins-official": true,
+    "explanatory-output-style@claude-plugins-official": true,
+    "greptile@claude-plugins-official": true,
+    "learning-output-style@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "chrome-devtools-mcp@claude-plugins-official": true,
+    "circleback@claude-plugins-official": true,
+    "remember@claude-plugins-official": true${AGENT_SKILLS_ENTRY}
+  }
+}
+EOF
+
+# Remove the placeholder null entry from extraKnownMarketplaces
+# (used to keep valid JSON when no extra marketplaces are needed)
+python3 -c "
+import json, sys
+with open('$SETTINGS_FILE') as f:
+    data = json.load(f)
+data['extraKnownMarketplaces'].pop('placeholder', None)
+with open('$SETTINGS_FILE', 'w') as f:
+    json.dump(data, f, indent=2)
+" 2>/dev/null || true
+
+# Fix ownership
+if [ -n "${_REMOTE_USER:-}" ]; then
+  chown -R "${_REMOTE_USER}:${_REMOTE_USER}" "$CLAUDE_CONFIG_DIR"
+fi
+
+echo "Claude plugin settings pre-seeded. Plugins will install on first launch."
