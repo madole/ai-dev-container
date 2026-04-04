@@ -1,7 +1,7 @@
 {
   "image": "node:lts",
   "features": {
-    "../src/claude-dev": {
+    "./claude-dev": {
       "claudeCodeVersion": "latest",
       "agentSkills": true,
       "firewall": true,
