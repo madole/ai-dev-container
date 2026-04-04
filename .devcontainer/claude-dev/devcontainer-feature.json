@@ -40,6 +40,6 @@
     "NODE_OPTIONS": "--max-old-space-size=4096",
     "NPM_CONFIG_PREFIX": "/usr/local/share/npm-global"
   },
-  "postCreateCommand": "if [ -f /usr/local/share/claude-dev/agent-skills-enabled ]; then claude /plugin marketplace add addyosmani/agent-skills && claude /plugin install agent-skills@addy-agent-skills; fi",
+  "postCreateCommand": "bash /usr/local/bin/install-claude-plugins.sh",
   "postStartCommand": "if [ -x /usr/local/bin/init-firewall.sh ]; then sudo /usr/local/bin/init-firewall.sh; fi"
 }

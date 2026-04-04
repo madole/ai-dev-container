@@ -41,4 +41,8 @@ if [ "${AGENTSKILLS:-true}" = "true" ]; then
   touch "$MARKER_DIR/agent-skills-enabled"
 fi
 
+# Copy plugin install script to a stable path for postCreateCommand
+cp "$FEATURE_DIR/install-plugins.sh" /usr/local/bin/install-claude-plugins.sh
+chmod +x /usr/local/bin/install-claude-plugins.sh
+
 echo "Claude Dev Feature installation complete."
