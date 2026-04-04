@@ -1,0 +1,44 @@
+{
+  "id": "claude-dev",
+  "version": "1.0.0",
+  "name": "Claude Dev Environment",
+  "description": "Claude Code with agent-skills, firewall lockdown, and dev tooling",
+  "options": {
+    "claudeCodeVersion": {
+      "type": "string",
+      "default": "latest",
+      "description": "Claude Code npm package version"
+    },
+    "agentSkills": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install agent-skills plugin from marketplace"
+    },
+    "firewall": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable firewall lockdown"
+    },
+    "extraAllowedDomains": {
+      "type": "string",
+      "default": "",
+      "description": "Comma-separated additional domains to whitelist (e.g. pypi.org,api.stripe.com)"
+    },
+    "devtools": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install dev tooling (zsh, fzf, git-delta, gh CLI, powerlevel10k)"
+    },
+    "gitDeltaVersion": {
+      "type": "string",
+      "default": "0.18.2",
+      "description": "git-delta version"
+    }
+  },
+  "capAdd": ["NET_ADMIN", "NET_RAW"],
+  "containerEnv": {
+    "NODE_OPTIONS": "--max-old-space-size=4096"
+  },
+  "postCreateCommand": "if [ -f /usr/local/share/claude-dev/agent-skills-enabled ]; then claude /plugin marketplace add addyosmani/agent-skills && claude /plugin install agent-skills@addy-agent-skills; fi",
+  "postStartCommand": "if [ -x /usr/local/bin/init-firewall.sh ]; then sudo /usr/local/bin/init-firewall.sh; fi"
+}
