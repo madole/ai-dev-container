@@ -36,11 +36,9 @@ su - "${_REMOTE_USER}" -c "sh -c \"\$(wget -O- https://github.com/deluan/zsh-in-
 # Set zsh as default shell for the remote user
 chsh -s /bin/zsh "${_REMOTE_USER}"
 
-# Install custom aliases
+# Install custom aliases (system-wide so all users get them)
 FEATURE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REMOTE_USER_HOME=$(eval echo "~${_REMOTE_USER}")
-cp "$FEATURE_DIR/aliases.zsh" "$REMOTE_USER_HOME/.aliases.zsh"
-chown "${_REMOTE_USER}:${_REMOTE_USER}" "$REMOTE_USER_HOME/.aliases.zsh"
-echo 'source ~/.aliases.zsh' >> "$REMOTE_USER_HOME/.zshrc"
+cp "$FEATURE_DIR/aliases.zsh" /etc/zsh/aliases.zsh
+echo 'source /etc/zsh/aliases.zsh' >> /etc/zsh/zshrc
 
 echo "Dev tools installed."
