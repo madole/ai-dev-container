@@ -17,8 +17,9 @@ apt-get update && apt-get install -y --no-install-recommends \
   sudo \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Create marker directory
+# Create marker directory and write version
 mkdir -p "$MARKER_DIR"
+jq -r '.version' "$FEATURE_DIR/devcontainer-feature.json" > "$MARKER_DIR/version"
 
 # Always install Claude Code
 echo "Installing Claude Code (version: ${CLAUDECODEVERSION:-latest})..."

@@ -1,5 +1,6 @@
 # Claude Dev Container aliases
 alias claude-s='claude --dangerously-skip-permissions'
+alias claude-dev-version='cat /usr/local/share/claude-dev/version'
 
 # Git helpers
 alias gst="git status"
