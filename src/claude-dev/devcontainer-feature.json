@@ -1,6 +1,6 @@
 {
   "id": "claude-dev",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "name": "Claude Dev Environment",
   "description": "Claude Code with agent-skills, firewall lockdown, and dev tooling",
   "options": {
