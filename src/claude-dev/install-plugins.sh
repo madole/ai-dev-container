@@ -47,7 +47,7 @@ cat > "$SETTINGS_FILE" << EOF
   "mcpServers": {
     "chrome-devtools": {
       "command": "npx",
-      "args": ["-y", "chrome-devtools-mcp@latest", "--browser-url=http://host.docker.internal:9222", "--headless"]
+      "args": ["-y", "chrome-devtools-mcp@latest", "--browserUrl=http://host.docker.internal:9222", "--headless"]
     }
   }
 }
