@@ -43,6 +43,12 @@ cat > "$SETTINGS_FILE" << EOF
     "chrome-devtools-mcp@claude-plugins-official": true,
     "circleback@claude-plugins-official": true,
     "remember@claude-plugins-official": true${AGENT_SKILLS_ENTRY}
+  },
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest", "--browser-url=http://host.docker.internal:9222", "--headless"]
+    }
   }
 }
 EOF
