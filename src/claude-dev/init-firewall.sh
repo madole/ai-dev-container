@@ -64,7 +64,6 @@ DOMAINS=(
     "api.anthropic.com"
     "console.anthropic.com"
     "claude.ai"
-    "auth.anthropic.com"
     "sentry.io"
     "statsig.anthropic.com"
     "statsig.com"
