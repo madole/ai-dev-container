@@ -119,7 +119,7 @@ Note: `capAdd` for NET_ADMIN/NET_RAW applies even when firewall is disabled. Thi
 Default whitelisted domains:
 - `registry.npmjs.org` (npm)
 - `api.anthropic.com` (Claude API)
-- `sentry.io`, `statsig.anthropic.com`, `statsig.com` (telemetry)
+- `sentry.io`, `statsig.com` (telemetry)
 - `marketplace.visualstudio.com`, `vscode.blob.core.windows.net`, `update.code.visualstudio.com` (VS Code)
 - GitHub IP ranges (fetched from api.github.com/meta)
 
