@@ -26,7 +26,13 @@ fi
 cat > "$SETTINGS_FILE" << EOF
 {
   "extraKnownMarketplaces": {
-    "placeholder": null${AGENT_SKILLS_MARKETPLACE}
+    "placeholder": null${AGENT_SKILLS_MARKETPLACE},
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      }
+    }
   },
   "enabledPlugins": {
     "frontend-design@claude-plugins-official": true,
@@ -42,7 +48,8 @@ cat > "$SETTINGS_FILE" << EOF
     "gopls-lsp@claude-plugins-official": true,
     "chrome-devtools-mcp@claude-plugins-official": true,
     "circleback@claude-plugins-official": true,
-    "remember@claude-plugins-official": true${AGENT_SKILLS_ENTRY}
+    "remember@claude-plugins-official": true,
+    "caveman@caveman": true${AGENT_SKILLS_ENTRY}
   },
   "mcpServers": {
     "chrome-devtools": {
