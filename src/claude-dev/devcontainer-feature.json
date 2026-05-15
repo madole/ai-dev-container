@@ -1,6 +1,6 @@
 {
   "id": "claude-dev",
-  "version": "1.4.0",
+  "version": "1.4.3",
   "name": "Claude Dev Environment",
   "description": "Claude Code with agent-skills, firewall lockdown, and dev tooling",
   "options": {
@@ -36,10 +36,14 @@
     }
   },
   "capAdd": ["NET_ADMIN", "NET_RAW"],
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/docker-in-docker",
+    "ghcr.io/devcontainers/features/common-utils"
+  ],
   "containerEnv": {
     "NODE_OPTIONS": "--max-old-space-size=4096",
     "NPM_CONFIG_PREFIX": "/usr/local/share/npm-global"
   },
-  "postCreateCommand": "bash /usr/local/bin/install-claude-plugins.sh",
+  "postCreateCommand": "bash /usr/local/bin/install-claude-plugins.sh && bash /usr/local/bin/sync-cursor-skills.sh",
   "postStartCommand": "if [ -x /usr/local/bin/init-firewall.sh ]; then sudo /usr/local/bin/init-firewall.sh; fi"
 }

@@ -1,4 +1,4 @@
-#\!/bin/bash
+#!/bin/bash
 set -euo pipefail
 
 GIT_DELTA_VERSION="${GITDELTAVERSION:-0.18.2}"

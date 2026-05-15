@@ -9,6 +9,22 @@ SETTINGS_FILE="$CLAUDE_CONFIG_DIR/settings.json"
 
 mkdir -p "$CLAUDE_CONFIG_DIR"
 
+# If the user already has a valid settings.json with plugins configured,
+# don't clobber it. Users often mount their own ~/.claude into the container
+# (to preserve auth, MCP servers, custom plugin selections, etc.).
+if [ -f "$SETTINGS_FILE" ] && python3 -c "
+import json, sys
+try:
+    with open('$SETTINGS_FILE') as f:
+        data = json.load(f)
+    sys.exit(0 if data.get('enabledPlugins') else 1)
+except Exception:
+    sys.exit(1)
+" 2>/dev/null; then
+  echo "Claude settings.json already exists with enabledPlugins; preserving user config."
+  exit 0
+fi
+
 AGENT_SKILLS_ENTRY=""
 AGENT_SKILLS_MARKETPLACE=""
 if [ -f /usr/local/share/claude-dev/agent-skills-enabled ]; then

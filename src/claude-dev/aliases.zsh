@@ -1,6 +1,8 @@
 # Claude Dev Container aliases
 alias claude-s='claude --dangerously-skip-permissions'
 alias claude-dev-version='cat /usr/local/share/claude-dev/version'
+# Re-run after Claude Code has downloaded plugins (cache must exist)
+alias sync-cursor-skills='bash /usr/local/bin/sync-cursor-skills.sh'
 
 # Git helpers
 alias gst="git status"

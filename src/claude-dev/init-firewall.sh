@@ -64,12 +64,25 @@ DOMAINS=(
     "api.anthropic.com"
     "console.anthropic.com"
     "claude.ai"
+    "context7.com"
+    "mcp.context7.com"
     "sentry.io"
     "statsig.com"
     "marketplace.visualstudio.com"
     "vscode.blob.core.windows.net"
     "update.code.visualstudio.com"
 )
+
+# If the docker-in-docker Feature is composed in, allow Docker Hub.
+# Other registries (ghcr.io, gcr.io, etc.) should be added via extraAllowedDomains.
+if command -v docker >/dev/null 2>&1; then
+    echo "Docker detected; whitelisting Docker Hub endpoints"
+    DOMAINS+=(
+        "registry-1.docker.io"
+        "auth.docker.io"
+        "production.cloudflare.docker.com"
+    )
+fi
 
 # Append extra domains from config file if present
 EXTRA_DOMAINS_FILE="/usr/local/share/claude-dev/extra-domains"

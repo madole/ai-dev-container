@@ -1,3 +1,14 @@
+// To add Docker support, compose with the official docker-in-docker Feature.
+// claude-dev's firewall auto-detects Docker and whitelists Docker Hub.
+// For other registries (ghcr.io, gcr.io, etc.), add them via extraAllowedDomains.
+//
+// Example:
+//   "features": {
+//     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+//     "./claude-dev": {
+//       "extraAllowedDomains": "ghcr.io,gcr.io"
+//     }
+//   }
 {
   "image": "node:lts",
   "features": {

@@ -1,4 +1,4 @@
-#\!/bin/bash
+#!/bin/bash
 set -e
 
 echo "Testing Claude Dev Feature installation..."
@@ -67,4 +67,28 @@ else
   exit 1
 fi
 
-echo "All tests passed\!"
+# Test 9: Cursor skill sync helper is installed
+if [ -x /usr/local/bin/sync-cursor-skills.sh ]; then
+  echo "PASS: sync-cursor-skills.sh installed"
+else
+  echo "FAIL: sync-cursor-skills.sh missing or not executable"
+  exit 1
+fi
+
+# Test 10: Firewall whitelist covers pre-seeded remote-MCP plugins.
+# When adding a plugin to install-plugins.sh that talks to a remote endpoint,
+# add the endpoint to init-firewall.sh's DOMAINS array AND to this list.
+# Local-only plugins (LSPs, chrome-devtools-mcp tunneling to host) don't apply.
+REQUIRED_FIREWALL_DOMAINS=(
+  "mcp.context7.com"  # context7@claude-plugins-official
+)
+for domain in "${REQUIRED_FIREWALL_DOMAINS[@]}"; do
+  if grep -q "\"$domain\"" /usr/local/bin/init-firewall.sh; then
+    echo "PASS: firewall allows $domain"
+  else
+    echo "FAIL: firewall missing $domain (pre-seeded plugin will be blocked)"
+    exit 1
+  fi
+done
+
+echo "All tests passed!"

@@ -46,4 +46,7 @@ fi
 cp "$FEATURE_DIR/install-plugins.sh" /usr/local/bin/install-claude-plugins.sh
 chmod +x /usr/local/bin/install-claude-plugins.sh
 
+cp "$FEATURE_DIR/sync-cursor-skills.sh" /usr/local/bin/sync-cursor-skills.sh
+chmod +x /usr/local/bin/sync-cursor-skills.sh
+
 echo "Claude Dev Feature installation complete."
